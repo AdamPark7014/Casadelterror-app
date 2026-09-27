@@ -20,3 +20,4 @@ infra/observability/.env
 # Prisma engine rename leftovers on Windows
 packages/database/generated/client/*.tmp*
 packages/database/generated/client/*.bad
+.ai/index/

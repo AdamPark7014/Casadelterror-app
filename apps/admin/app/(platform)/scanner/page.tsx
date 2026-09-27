@@ -55,6 +55,7 @@ export default function ScannerPage() {
   const [rangeKey, setRangeKey] = useState<RangeKey>('today');
   const [eventId, setEventId] = useState('');
   const [highVis, setHighVis] = useState(false);
+  const [showOps, setShowOps] = useState(false);
   const station = useScanStation();
 
   const range = useMemo(() => buildScannerRange(rangeKey), [rangeKey]);
@@ -186,9 +187,9 @@ export default function ScannerPage() {
   return (
     <div className={`${styles.page} ${highVis ? styles.highVis : ''}`}>
       <PageHeader
-        eyebrow="Operación en puerta"
-        title="Command center de accesos"
-        description="Escaneo en vivo, throughput, no-show e incidentes · Puebla"
+        eyebrow="Puerta"
+        title="Escáner de accesos"
+        description="Valida entradas y salidas · Pumpkin Zone"
         actions={
           <div className={styles.headerActions}>
             <Button
@@ -204,7 +205,7 @@ export default function ScannerPage() {
               }}
               aria-pressed={highVis}
             >
-              Alta visibilidad
+              Contraste alto
             </Button>
             <SegmentedControl
               label="Modo de acceso"
@@ -223,7 +224,7 @@ export default function ScannerPage() {
               onClick={() => station.setSoundEnabled(!station.soundEnabled)}
               aria-pressed={station.soundEnabled}
             >
-              {station.soundEnabled ? 'Sonido on' : 'Sonido off'}
+              {station.soundEnabled ? 'Sonido activado' : 'Sonido apagado'}
             </Button>
             {queued > 0 && station.online ? (
               <Button
@@ -313,25 +314,49 @@ export default function ScannerPage() {
         </p>
       ) : null}
 
-      <LiveKpis
-        stats={{ ...station.stats, queued }}
-        ticketsCheckedIn={access.data?.ticketsCheckedIn ?? null}
-        ticketsNoShow={access.data?.ticketsNoShow ?? null}
-        noShowRate={access.data?.noShowRate ?? null}
-        loading={metricsLoading}
-        degraded={metricsDegraded}
-      />
+      {showOps ? (
+        <>
+          <LiveKpis
+            stats={{ ...station.stats, queued }}
+            ticketsCheckedIn={access.data?.ticketsCheckedIn ?? null}
+            ticketsNoShow={access.data?.ticketsNoShow ?? null}
+            noShowRate={access.data?.noShowRate ?? null}
+            loading={metricsLoading}
+            degraded={metricsDegraded}
+          />
+        </>
+      ) : null}
 
       <div className={styles.layout}>
         <section className={styles.stationCol} aria-label="Estación de escaneo">
           <Card className={styles.scanCard} padding="md">
             <CardHeader
-              title="Estación de escaneo"
-              description="Cámara o entrada manual · fotogramas no se guardan"
+              title={station.direction === 'EXIT' ? 'Modo salida' : 'Modo entrada'}
+              description={
+                station.direction === 'EXIT'
+                  ? 'Registra salida para permitir reingreso · fotogramas no se guardan'
+                  : 'Cámara o código manual · fotogramas no se guardan'
+              }
             />
             <ScanFeedback feedback={feedback} />
-            <CameraScanner onScan={onScan} disabled={station.queueing} />
+            <CameraScanner
+              onScan={onScan}
+              disabled={station.queueing}
+              direction={station.direction}
+            />
           </Card>
+
+          <div className={styles.filterRow} style={{ marginTop: '0.75rem' }}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setShowOps((v) => !v)}
+              aria-expanded={showOps}
+            >
+              {showOps ? 'Ocultar operación' : 'Ver operación y métricas'}
+            </Button>
+          </div>
 
           {queued > 0 ? (
             <Card className={styles.panel} padding="md">
@@ -362,25 +387,27 @@ export default function ScannerPage() {
           ) : null}
         </section>
 
-        <section className={styles.opsCol} aria-label="Operación y métricas">
-          <ArrivalCurve
-            points={arrivalPoints}
-            granularity={range.granularity === 'day' ? 'day' : 'hour'}
-            loading={metricsLoading}
-            errorMessage={
-              timeseries.error instanceof Error && !arrivalPoints.length
-                ? timeseries.error.message
-                : undefined
-            }
-          />
-          <AccessPointsPanel
-            rows={doorRows}
-            total={doorTotal}
-            loading={access.isPending}
-            available={doorRows.length > 0}
-          />
-          <IncidentsPanel incidents={incidents} loading={alerts.isPending} />
-        </section>
+        {showOps ? (
+          <section className={styles.opsCol} aria-label="Operación y métricas">
+            <ArrivalCurve
+              points={arrivalPoints}
+              granularity={range.granularity === 'day' ? 'day' : 'hour'}
+              loading={metricsLoading}
+              errorMessage={
+                timeseries.error instanceof Error && !arrivalPoints.length
+                  ? timeseries.error.message
+                  : undefined
+              }
+            />
+            <AccessPointsPanel
+              rows={doorRows}
+              total={doorTotal}
+              loading={access.isPending}
+              available={doorRows.length > 0}
+            />
+            <IncidentsPanel incidents={incidents} loading={alerts.isPending} />
+          </section>
+        ) : null}
       </div>
 
       <p className={styles.privacyNote}>

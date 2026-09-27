@@ -299,7 +299,7 @@ function VentaForm() {
         holdRef.current = [];
         setHoldIds([]);
         setHoldExpiresAt(null);
-        showToast('Hold expirado — vuelve a reservar', 'warn');
+        showToast('Reserva expirada — vuelve a apartar', 'warn');
       }
     };
     tick();
@@ -389,7 +389,7 @@ function VentaForm() {
       setHoldIds(hold.holdIds);
       holdRef.current = hold.holdIds;
       setHoldExpiresAt(new Date(hold.expiresAt));
-      showToast(`Hold · ${hold.holdIds.length} asiento(s)`, 'ok');
+      showToast(`Reserva · ${hold.holdIds.length} asiento(s)`, 'ok');
       return hold.holdIds;
     } catch (e: unknown) {
       showToast(errMessage(e, 'No se pudo crear hold'), 'err');
@@ -775,7 +775,7 @@ function VentaForm() {
             <>Creando hold…</>
           ) : (
             <>
-              Hold activo · {formatTtl(ttlLeft)} ·{' '}
+              Reserva activa · {formatTtl(ttlLeft)} ·{' '}
               <button type="button" onClick={() => void clearHolds()}>
                 Liberar Esc
               </button>
@@ -950,7 +950,7 @@ function VentaForm() {
               onChange={(e) => setBuyerEmail(e.target.value)}
             />
             <input
-              placeholder="Promo code"
+              placeholder="Código promo"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
             />
@@ -1071,9 +1071,9 @@ function VentaForm() {
           {method === 'COMP' && (
             <div className={styles.buyerFields}>
               <select value={compReason} onChange={(e) => setCompReason(e.target.value)}>
-                <option value="house">House</option>
-                <option value="press">Press</option>
-                <option value="artist">Artist</option>
+                <option value="house">Cortesía</option>
+                <option value="press">Prensa</option>
+                <option value="artist">Artista</option>
               </select>
               <input
                 type="password"

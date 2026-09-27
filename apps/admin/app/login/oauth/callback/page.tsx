@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { http } from '@/lib/http';
+import { decodeSessionToken } from '@/lib/session';
 import { useSession } from '@/lib/use-session';
 import { AuthShell, StatusBanner } from '../../_components/AuthShell';
 import { authErrorMessage } from '../../_lib/errors';
@@ -83,7 +84,10 @@ function OauthCallbackContent() {
         if (data.accessToken) setToken(data.accessToken);
         await refresh();
         if (cancelled) return;
-        router.replace('/dashboard');
+        const role = data.accessToken
+          ? decodeSessionToken(data.accessToken)?.user.role
+          : null;
+        router.replace(role?.toUpperCase() === 'SCANNER' ? '/scanner' : '/dashboard');
       } catch (err) {
         if (cancelled) return;
         setError(

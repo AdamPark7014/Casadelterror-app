@@ -48,14 +48,14 @@ export function HoldCountdown({
       aria-label={
         expired
           ? 'Reserva expirada'
-          : `Asientos reservados, quedan ${countdownSpoken(left)}`
+          : `Boletos reservados, quedan ${countdownSpoken(left)}`
       }
     >
-      <span className={styles.label}>{expired ? 'Reserva expirada' : 'Asientos reservados'}</span>
+      <span className={styles.label}>{expired ? 'Reserva expirada' : 'Boletos reservados'}</span>
       <strong className={styles.time}>{countdown(left)}</strong>
       <span className={styles.hint}>
         {expired
-          ? 'Vuelve al evento y selecciona de nuevo'
+          ? 'Vuelve a elegir tus boletos'
           : 'Completa el pago antes de que expire'}
       </span>
     </div>

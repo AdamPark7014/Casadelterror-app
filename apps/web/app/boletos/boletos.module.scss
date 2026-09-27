@@ -16,7 +16,12 @@
     radial-gradient(90% 40% at 50% 0%, rgba(255, 106, 19, 0.1), transparent 65%),
     var(--pz-night);
   color: var(--pz-bone);
+  --buybar-height: 0px;
   padding-bottom: calc(var(--space-8) + var(--buybar-height));
+
+  @media (max-width: 900px) {
+    --buybar-height: 7.5rem;
+  }
 }
 
 .shell {

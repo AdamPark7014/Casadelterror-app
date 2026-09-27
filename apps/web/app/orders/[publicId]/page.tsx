@@ -15,6 +15,7 @@ import { PaymentReturnWatcher } from '@/components/PaymentReturnWatcher';
 import { SimulateDemoPaymentButton } from '@/components/SimulateDemoPaymentButton';
 import { Breadcrumbs } from '@/components/storefront/Breadcrumbs';
 import { PurchaseSteps } from '@/components/storefront/PurchaseSteps';
+import { TICKETS_HREF } from '@/lib/purchase-routes';
 import {
   TrustRow,
   TRUST_OFFICIAL,
@@ -68,7 +69,7 @@ function nextStepCopy(order: OrderDetail, completed: boolean, isDemoFlow: boolea
     return 'Guarda tus QR o el PDF. Preséntalos en el acceso el día del evento.';
   }
   if (isFailedStatus(order.status)) {
-    return 'Esta orden ya no se puede pagar. Elige asientos de nuevo en el evento.';
+    return 'Esta orden ya no se puede pagar. Elige boletos de nuevo.';
   }
   if (order.paymentMethod === 'SPEI') {
     return isDemoFlow
@@ -119,7 +120,7 @@ export default async function OrderPage({ params }: { params: Promise<{ publicId
       <div className={styles.shell}>
         <SiteHeader theme="dark" />
         <main className={styles.page}>
-          <PurchaseSteps current="tickets" />
+          <PurchaseSteps current="done" />
           <div className={styles.empty}>
             <h1>Orden no encontrada</h1>
             <p>
@@ -133,7 +134,7 @@ export default async function OrderPage({ params }: { params: Promise<{ publicId
               <Link href="/ayuda" className={styles.ghost}>
                 Centro de ayuda
               </Link>
-              <Link href="/events" className={styles.secondary}>
+              <Link href="/boletos" className={styles.secondary}>
                 Ver eventos
               </Link>
             </div>
@@ -150,7 +151,7 @@ export default async function OrderPage({ params }: { params: Promise<{ publicId
   const pending = order.status === 'PENDING';
   const failed = isFailedStatus(order.status);
   const isDemoFlow = gatewayDemo || pendingMeta?.demo === true;
-  const recoverEventHref = order.event?.slug ? `/events/${order.event.slug}` : '/events';
+  const recoverEventHref = TICKETS_HREF;
   const isMercadoPago = pendingMeta?.type === 'MERCADOPAGO';
   // Mercado Pago: retomar el pago es volver a su checkout; Banorte: la página /pago.
   const paymentHref = isMercadoPago && pendingMeta?.redirectUrl
@@ -193,7 +194,7 @@ export default async function OrderPage({ params }: { params: Promise<{ publicId
     <div className={styles.shell}>
       <SiteHeader theme="dark" />
       <main className={styles.page}>
-        <PurchaseSteps current={completed ? 'tickets' : 'checkout'} />
+        <PurchaseSteps current={completed ? 'done' : 'pay'} />
 
         <Breadcrumbs
           trail={[
@@ -362,12 +363,12 @@ export default async function OrderPage({ params }: { params: Promise<{ publicId
           <section className={styles.section} aria-live="polite">
             <h2>No se pudo completar</h2>
             <p className={styles.mutedBlock}>
-              Estado: {orderStatusLabel(order.status)}. No hay cargo activo. Elige asientos de
+              Estado: {orderStatusLabel(order.status)}. No hay cargo activo. Elige boletos de
               nuevo para generar una nueva reserva.
             </p>
             <div className={styles.actions}>
               <Link href={recoverEventHref} className={styles.link}>
-                Reelegir asientos
+                Elegir boletos de nuevo
               </Link>
               <Link href="/cart" className={styles.ghost}>
                 Ir al carrito
@@ -452,7 +453,7 @@ export default async function OrderPage({ params }: { params: Promise<{ publicId
               Transferir boleto
             </Link>
           )}
-          <Link href="/events" className={styles.ghost}>
+          <Link href="/boletos" className={styles.ghost}>
             Ver más eventos
           </Link>
         </div>

@@ -392,8 +392,8 @@ export default function CuentaPage() {
                 title="Sin boletos próximos"
                 description="Cuando compres, tus entradas aparecerán aquí listas para el evento."
                 action={
-                  <Link href="/events" className={styles.primaryLink}>
-                    Ver cartelera
+                  <Link href="/boletos" className={styles.primaryLink}>
+                    Comprar boletos
                   </Link>
                 }
               />
@@ -488,7 +488,7 @@ export default function CuentaPage() {
                 title="Sin historial"
                 description="Aún no tienes órdenes fuera del wallet de próximos eventos."
                 action={
-                  <Link href="/events" className={styles.primaryLink}>
+                  <Link href="/boletos" className={styles.primaryLink}>
                     Explorar eventos
                   </Link>
                 }
@@ -691,7 +691,7 @@ export default function CuentaPage() {
                 <p className={styles.muted}>Sesión activa sin perfil guardado en este dispositivo.</p>
               )}
               <div className={styles.profileActions}>
-                <Link href="/events" className={styles.primaryLink}>
+                <Link href="/boletos" className={styles.primaryLink}>
                   Explorar eventos
                 </Link>
                 <Button type="button" variant="ghost" size="md" onClick={logout}>

@@ -307,7 +307,7 @@ export default function TaquillaHome() {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if (e.key === 'F1') {
         e.preventDefault();
-        router.push('/eventos');
+        router.push('/venta');
       } else if (e.key === 'F2') {
         e.preventDefault();
         router.push('/eventos');
@@ -483,7 +483,7 @@ export default function TaquillaHome() {
               </button>
             )}
             {pendingSale.status === 'submitting' && (
-              <Link href="/eventos">Ir a venta</Link>
+              <Link href="/venta">Ir a cobrar</Link>
             )}
             {pendingSaleUi.showDismiss && (
               <button type="button" className={styles.recoveryDismiss} onClick={dismissPendingSale}>
@@ -521,7 +521,7 @@ export default function TaquillaHome() {
         </div>
 
         <section className={styles.quickActions} aria-label="Acciones frecuentes">
-          <Link href="/eventos" className={`${styles.actionCard} ${styles.primary}`}>
+          <Link href="/venta" className={`${styles.actionCard} ${styles.primary}`}>
             <span className={styles.actionKey}>F1</span>
             <strong>Nueva venta</strong>
             <span>Evento, lugares y cobro</span>
@@ -538,7 +538,7 @@ export default function TaquillaHome() {
           </Link>
           <Link href="/willcall" className={styles.actionCard}>
             <span className={styles.actionKey}>F4</span>
-            <strong>Will-call</strong>
+            <strong>Entregar boletos</strong>
             <span>Entrega en taquilla</span>
           </Link>
           <Link href="/eventos?comp=1" className={styles.actionCard}>
@@ -647,7 +647,7 @@ export default function TaquillaHome() {
             <kbd>F3</kbd> Buscar
           </li>
           <li>
-            <kbd>F4</kbd> Will-call
+            <kbd>F4</kbd> Entregar
           </li>
           <li>
             <kbd>F5</kbd> Cortesías

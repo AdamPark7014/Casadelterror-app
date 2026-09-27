@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { API_BASE } from '@/lib/api';
+import { EVENT, formatPrice } from '@/lib/event-config';
 import { useCartStore, type CartOfferLine } from '@/lib/cart-store';
-import { formatPrice } from '@/lib/event-config';
 import styles from './TicketPicker.module.scss';
 
 export type PickerTier = {
@@ -96,7 +96,11 @@ export function TicketPicker({ eventId, canPurchase, tiers }: Props) {
 
       addToCart({
         eventId,
-        eventTitle: 'Pumpkin Zone',
+        eventTitle: EVENT.name,
+        slug: EVENT.slug,
+        startsAt: EVENT.startsAt,
+        venueName: EVENT.venue.name,
+        venueCity: EVENT.venue.city,
         lines,
         seatCount: lines.reduce((n, l) => n + l.quantity, 0),
         expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),

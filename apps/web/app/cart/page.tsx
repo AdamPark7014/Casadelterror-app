@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { EmptyState } from '@boletera/ui';
 import { SiteHeader } from '@/components/SiteHeader';
 import { PurchaseSteps } from '@/components/storefront/PurchaseSteps';
+import { TICKETS_HREF } from '@/lib/purchase-routes';
 import { TrustRow, TRUST_OFFICIAL, TRUST_QR, trustPayment } from '@/components/storefront/TrustRow';
 import {
   normalizeCartItem,
@@ -113,7 +114,7 @@ function CartCard({
       <div className={styles.cardTop}>
         <div>
           <p className={expired ? styles.kickerExpired : styles.kicker}>
-            {expired ? 'Hold liberado' : 'Hold activo'}
+            {expired ? 'Reserva liberada' : 'Reserva activa'}
           </p>
           <h2>
             {item.slug ? (
@@ -166,8 +167,8 @@ function CartCard({
             Elegir de nuevo
           </Link>
         ) : (
-          <Link href="/events" className={styles.primary}>
-            Ver eventos
+          <Link href="/boletos" className={styles.primary}>
+            Elegir boletos
           </Link>
         )}
         {item.slug && !expired && (
@@ -254,7 +255,7 @@ export default function CartPage() {
     <div className={styles.shell}>
       <SiteHeader theme="dark" />
       <main className={styles.page}>
-        <PurchaseSteps current="cart" />
+        <PurchaseSteps current="choose" />
 
         <header className={styles.hero}>
           <p className={styles.eyebrow}>Reserva temporal</p>
@@ -271,11 +272,11 @@ export default function CartPage() {
             {emptyArt}
             <EmptyState
               title="Carrito vacío"
-              description="Explora la cartelera y asegura tus lugares con hold en vivo."
+              description="Elige tus boletos y apártalos 10 minutos mientras pagas."
               action={
                 <div className={styles.emptyActions}>
-                  <Link href="/events" className={styles.primary}>
-                    Ver eventos
+                  <Link href="/boletos" className={styles.primary}>
+                    Elegir boletos
                   </Link>
                   <Link href="/" className={styles.ghost}>
                     Ir al inicio
@@ -303,7 +304,7 @@ export default function CartPage() {
                 <div className={styles.expiredBlock} role="region" aria-label="Reservas expiradas">
                   <h3>Reservas expiradas</h3>
                   <p>
-                    El hold se liberó. Vuelve al mapa para elegir de nuevo; no se generó ningún
+                    La reserva se liberó. Vuelve a elegir boletos; no se generó ningún
                     cargo.
                   </p>
                   <ul>
@@ -316,7 +317,7 @@ export default function CartPage() {
                             {item.slug ? (
                               <Link href={'/boletos'}>Elegir de nuevo</Link>
                             ) : (
-                              <Link href="/events">Ver eventos</Link>
+                              <Link href="/boletos">Elegir boletos</Link>
                             )}
                             <button type="button" onClick={() => idx >= 0 && removeAt(idx)}>
                               Limpiar
@@ -382,7 +383,7 @@ export default function CartPage() {
               </div>
 
               <div className={styles.summaryFooter}>
-                <Link href="/events">Seguir explorando</Link>
+                <Link href="/boletos">Ver el evento</Link>
                 <button type="button" onClick={() => clear()}>
                   Vaciar carrito
                 </button>

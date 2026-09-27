@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { decodeSessionToken } from '@/lib/session';
 import { http } from '@/lib/http';
 import { useSession } from '@/lib/use-session';
 import { AuthShell, MobileBrand, StatusBanner } from './_components/AuthShell';
@@ -22,9 +23,13 @@ type LoginResponse = {
   accessToken?: string;
 };
 
+function homeForRole(role: string | null | undefined): string {
+  return role?.toUpperCase() === 'SCANNER' ? '/scanner' : '/dashboard';
+}
+
 export default function LoginPage() {
   const router = useRouter();
-  const { status, refresh, setToken } = useSession();
+  const { status, refresh, setToken, role } = useSession();
   const errorId = useId();
   const emailErrorId = useId();
   const passwordErrorId = useId();
@@ -43,9 +48,9 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.replace('/dashboard');
+      router.replace(homeForRole(role));
     }
-  }, [router, status]);
+  }, [router, status, role]);
 
   useEffect(() => {
     if (error) errorRef.current?.focus();
@@ -90,7 +95,8 @@ export default function LoginPage() {
       });
       if (accessToken) setToken(accessToken);
       await refresh();
-      router.push('/dashboard');
+      const decoded = decodeSessionToken(accessToken ?? '');
+      router.push(homeForRole(decoded?.user.role));
     } catch (err) {
       setError(
         authErrorMessage(err, 'Credenciales inválidas. Verifica tu email y contraseña.'),

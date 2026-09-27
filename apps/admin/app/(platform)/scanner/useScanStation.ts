@@ -9,11 +9,13 @@ import {
   readQueue,
   readSoundEnabled,
   readStation,
+  readDirection,
   scanBody,
   writeLog,
   writeQueue,
   writeSoundEnabled,
   writeStation,
+  writeDirection,
 } from './scan-store';
 import type {
   QueuedScan,
@@ -217,6 +219,7 @@ export function useScanStation(): UseScanStationResult {
     setStationState(initial);
     if (!existing) writeStation(initial);
     setSoundState(readSoundEnabled());
+    setDirectionState(readDirection());
     setLog(readLog());
     setQueue(readQueue());
     setOnline(typeof navigator === 'undefined' ? true : navigator.onLine);
@@ -256,7 +259,7 @@ export function useScanStation(): UseScanStationResult {
         const res = await http<ScanApiResponse>('/access/scan', {
           method: 'POST',
           body: {
-            ...scanBody(item.raw, directionRef.current),
+            ...scanBody(item.raw, item.direction ?? directionRef.current),
             scannedBy: item.station || stationRef.current || 'admin-scanner',
             channel: 'ADMIN',
           },
@@ -331,6 +334,7 @@ export function useScanStation(): UseScanStationResult {
             at: new Date().toISOString(),
             station: stationName,
             source,
+            direction: directionRef.current,
           };
           persistQueue([...readQueue(), item]);
           pushRecord({
@@ -377,6 +381,7 @@ export function useScanStation(): UseScanStationResult {
               at: new Date().toISOString(),
               station: stationName,
               source,
+              direction: directionRef.current,
             };
             persistQueue([...readQueue(), item]);
             pushRecord({
@@ -418,6 +423,7 @@ export function useScanStation(): UseScanStationResult {
   const setDirection = useCallback((value: 'ENTRY' | 'EXIT') => {
     setDirectionState(value);
     directionRef.current = value;
+    writeDirection(value);
   }, []);
 
   const setSoundEnabled = useCallback((value: boolean) => {

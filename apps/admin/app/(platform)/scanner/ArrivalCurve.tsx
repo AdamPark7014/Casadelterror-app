@@ -33,7 +33,7 @@ export function ArrivalCurve({ points, granularity, loading, errorMessage }: Pro
     <Card className={styles.panel} padding="md">
       <CardHeader
         title="Curva de llegada"
-        description="Check-ins agregados en el rango seleccionado"
+        description="Ingresos agregados en el rango seleccionado"
       />
       {errorMessage ? (
         <EmptyState

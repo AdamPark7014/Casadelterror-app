@@ -489,6 +489,7 @@ export const PosSeatMap = memo(function PosSeatMap({
   const [levelFilter, setLevelFilter] = useState<string | 'ALL'>('ALL');
   const [heatMode, setHeatMode] = useState<HeatMode>('off');
   const [showEgress, setShowEgress] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [priceCap, setPriceCap] = useState<number | null>(null);
   const [scale, setScale] = useState(1);
   const [tx, setTx] = useState(0);
@@ -706,7 +707,7 @@ export const PosSeatMap = memo(function PosSeatMap({
             <span className={`${styles.dot} ${styles.dotAvailable}`} /> Disp. <em>{counts.available}</em>
           </li>
           <li>
-            <span className={`${styles.dot} ${styles.dotHeld}`} /> Hold <em>{counts.held}</em>
+            <span className={`${styles.dot} ${styles.dotHeld}`} /> Reserva <em>{counts.held}</em>
           </li>
           <li>
             <span className={`${styles.dot} ${styles.dotSold}`} /> Vend. <em>{counts.sold}</em>
@@ -738,6 +739,16 @@ export const PosSeatMap = memo(function PosSeatMap({
         )}
         <button
           type="button"
+          className={showAdvanced ? styles.levelActive : styles.levelBtn}
+          onClick={() => setShowAdvanced((v) => !v)}
+          aria-pressed={showAdvanced}
+        >
+          Más
+        </button>
+        {showAdvanced ? (
+          <>
+        <button
+          type="button"
           className={heatMode === 'price' ? styles.levelActive : styles.levelBtn}
           onClick={() => toggleHeat('price')}
           aria-pressed={heatMode === 'price'}
@@ -766,6 +777,8 @@ export const PosSeatMap = memo(function PosSeatMap({
         >
           Salidas
         </button>
+          </>
+        ) : null}
         <span className={live ? styles.liveOn : styles.liveOff}>
           {live ? 'En vivo' : 'Polling'}
           {useCanvas ? ' · Canvas' : ''}

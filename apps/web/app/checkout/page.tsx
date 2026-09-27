@@ -16,6 +16,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { HoldCountdown } from '@/components/HoldCountdown';
 import { PriceBreakdown } from '@/components/storefront/PriceBreakdown';
 import { PurchaseSteps } from '@/components/storefront/PurchaseSteps';
+import { TICKETS_HREF } from '@/lib/purchase-routes';
 import { TrustRow, TRUST_OFFICIAL, TRUST_QR, trustPayment } from '@/components/storefront/TrustRow';
 import { API_BASE, ApiError, api } from '@/lib/api';
 import { authHeaders, getStoredUser } from '@/lib/auth';
@@ -238,7 +239,7 @@ function CheckoutForm() {
       return;
     }
     if (!eventId || !orderLines.length) {
-      setError('No hay asientos reservados. Vuelve al mapa para continuar.');
+      setError('No hay boletos reservados. Vuelve a elegir para continuar.');
       return;
     }
 
@@ -310,7 +311,7 @@ function CheckoutForm() {
         : demo
           ? 'Simulación local sin cargo real ni datos de tarjeta.'
           : 'Serás redirigido a nuestra plataforma de pago seguro.';
-  const recoverHref = cartItem?.slug ? `/events/${cartItem.slug}` : '/events';
+  const recoverHref = TICKETS_HREF;
   const payLabel = demo
     ? `Simular pago${pricing ? ` ${moneyExact(pricing.total, currency)}` : ''}`
     : `Pagar${pricing ? ` ${moneyExact(pricing.total, currency)}` : ''}`;
@@ -319,10 +320,10 @@ function CheckoutForm() {
     <div className={styles.shell}>
       <SiteHeader theme="dark" />
       <main className={styles.page}>
-        <PurchaseSteps current="checkout" />
+        <PurchaseSteps current="pay" />
 
         <header className={styles.hero}>
-          <h1>Checkout</h1>
+          <h1>Completa tu compra</h1>
           <p>
             {demo
               ? `Modo demo · ${holdIds.length} boleto${holdIds.length === 1 ? '' : 's'} · sin cargo real`
@@ -334,15 +335,15 @@ function CheckoutForm() {
         <HoldCountdown expiresAt={expiresAt} onExpire={handleHoldExpire} />
         {holdExpired && (
           <p className={styles.error} role="alert">
-            Tu reserva expiró y los asientos se liberaron.{' '}
-            <Link href={recoverHref}>Volver a elegir asientos</Link>
+            Tu reserva expiró y los boletos se liberaron.{' '}
+            <Link href={recoverHref}>Volver a elegir boletos</Link>
           </p>
         )}
         {!holdIds.length && !holdExpired && (
           <p className={styles.error} role="alert">
             No encontramos holds activos para este checkout.{' '}
             <Link href="/cart">Regresar al carrito</Link> o{' '}
-            <Link href={recoverHref}>elegir asientos de nuevo</Link>.
+            <Link href={recoverHref}>elegir boletos de nuevo</Link>.
           </p>
         )}
         {fieldErrors.holds && !holdExpired && holdIds.length > 0 && (
@@ -484,7 +485,7 @@ function CheckoutForm() {
                       Reintentar pago
                     </button>
                   ) : null}
-                  <Link href={recoverHref}>Volver a los asientos</Link>
+                  <Link href={recoverHref}>Volver a elegir boletos</Link>
                   <Link href="/cart">Volver al carrito</Link>
                 </div>
               </div>
@@ -504,7 +505,7 @@ function CheckoutForm() {
             <p className={styles.fine}>
               Al continuar aceptas los <Link href="/terminos">términos</Link> y el{' '}
               <Link href="/privacidad">aviso de privacidad</Link>. No almacenamos datos de tarjeta
-              en TicketOS.
+              en Pumpkin Zone.
               {!storedUser
                 ? ' Puedes pagar como invitado; el email es suficiente para recibir tus boletos.'
                 : ''}

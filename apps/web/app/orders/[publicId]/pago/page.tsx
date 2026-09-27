@@ -8,6 +8,7 @@ import { moneyExact, paymentMethodLabel } from '@/lib/format';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SimulateDemoPaymentButton } from '@/components/SimulateDemoPaymentButton';
 import { PurchaseSteps } from '@/components/storefront/PurchaseSteps';
+import { TICKETS_HREF } from '@/lib/purchase-routes';
 import {
   TrustRow,
   TRUST_OFFICIAL,
@@ -217,7 +218,7 @@ function PagoContent() {
   const concept = conceptParam || meta?.concept || meta?.reference || ref;
   const reference = ref || meta?.reference || orderMeta?.pendingPayment?.reference || publicId;
   const isDemoFlow = demo || gatewayDemo || meta?.demo === true;
-  const eventHref = orderMeta?.event?.slug ? `/events/${orderMeta.event.slug}` : '/events';
+  const eventHref = TICKETS_HREF;
   const completed = orderMeta?.status === 'COMPLETED';
   const amountLabel =
     orderMeta?.totalAmount != null
@@ -279,7 +280,7 @@ function PagoContent() {
       <div className={styles.shell}>
         <SiteHeader theme="dark" />
         <main className={styles.page}>
-          <PurchaseSteps current="checkout" />
+          <PurchaseSteps current="pay" />
           <header className={styles.hero}>
             <p className={styles.pending}>
               Pago cancelado{isDemoFlow ? ' (demo)' : ' en Mercado Pago'}
@@ -304,7 +305,7 @@ function PagoContent() {
             </ol>
             <p className={styles.nextStep} role="status">
               <strong>Siguiente paso:</strong> Reintenta el pago desde la orden o vuelve a elegir
-              asientos si tu hold ya expiró. No se cobró nada.
+              boletos si tu reserva ya expiró. No se cobró nada.
             </p>
           </section>
           <div className={styles.actions}>
@@ -331,7 +332,7 @@ function PagoContent() {
       <div className={styles.shell}>
         <SiteHeader theme="dark" />
         <main className={styles.page}>
-          <PurchaseSteps current="checkout" />
+          <PurchaseSteps current="pay" />
 
           <header className={styles.hero}>
             <p className={styles.pending}>
@@ -503,7 +504,7 @@ function PagoContent() {
     <div className={styles.shell}>
       <SiteHeader theme="dark" />
       <main className={styles.page}>
-        <PurchaseSteps current="checkout" />
+        <PurchaseSteps current="pay" />
 
         <header className={styles.hero}>
           <p className={styles.pending}>
@@ -624,7 +625,7 @@ export default function PagoPage() {
         <div className={styles.shell}>
           <SiteHeader theme="dark" />
           <main className={styles.page}>
-            <PurchaseSteps current="checkout" />
+            <PurchaseSteps current="pay" />
             <p className={styles.statusLive} role="status">
               Cargando pago…
             </p>

@@ -9,13 +9,14 @@ import styles from './scanner.module.scss';
 type Props = {
   onScan: (text: string, source: ScanSource) => void;
   disabled?: boolean;
+  direction?: 'ENTRY' | 'EXIT';
 };
 
 /**
  * Cámara + entrada manual. El MediaStream vive en refs; no se guardan frames
  * en estado React.
  */
-export function CameraScanner({ onScan, disabled = false }: Props) {
+export function CameraScanner({ onScan, disabled = false, direction = 'ENTRY' }: Props) {
   const fieldId = useId();
   const [manual, setManual] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -177,7 +178,7 @@ export function CameraScanner({ onScan, disabled = false }: Props) {
           loading={disabled}
           loadingLabel="Validando…"
         >
-          Validar entrada
+          {direction === 'EXIT' ? 'Validar salida' : 'Validar entrada'}
         </Button>
       </div>
     </div>

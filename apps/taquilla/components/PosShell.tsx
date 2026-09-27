@@ -37,7 +37,7 @@ export function PosShell({
         </div>
         <span className={online ? styles.netOn : styles.netOff}>
           <span className={styles.dot} />
-          {online ? 'Online' : 'Offline'}
+          {online ? 'En línea' : 'Sin conexión'}
         </span>
       </header>
       {children}

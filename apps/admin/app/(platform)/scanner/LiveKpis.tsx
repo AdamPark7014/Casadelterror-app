@@ -35,7 +35,7 @@ export function LiveKpis({
   return (
     <section className={styles.kpiGrid} aria-label="Indicadores en vivo">
       <KpiCard
-        label="Throughput"
+        label="Ritmo"
         value={formatThroughput(stats.throughputPerMin)}
         unit="/ min"
         tone="accent"
@@ -58,7 +58,7 @@ export function LiveKpis({
         loading={false}
       />
       <KpiCard
-        label="Check-ins"
+        label="Ingresos"
         value={ticketsCheckedIn === null ? '—' : formatCount(ticketsCheckedIn)}
         tone="info"
         hint={platformHint}

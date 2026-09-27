@@ -12,6 +12,7 @@ const QUEUE_KEY = 'boletera_offline_scans';
 const LOG_KEY = 'boletera_scan_log';
 const STATION_KEY = 'boletera_scan_station';
 const SOUND_KEY = 'boletera_scan_sound';
+const DIRECTION_KEY = 'boletera_scan_direction';
 
 /** Límite del historial local para no crecer sin control en jornadas largas. */
 export const LOG_LIMIT = 250;
@@ -86,12 +87,14 @@ function toQueuedScan(value: unknown): QueuedScan | null {
   if (!isObject(value)) return null;
   const raw = value.raw;
   if (typeof raw !== 'string' || !raw.trim()) return null;
+  const direction = value.direction === 'EXIT' ? 'EXIT' : value.direction === 'ENTRY' ? 'ENTRY' : undefined;
   return {
     id: toOptionalString(value.id) ?? createId(),
     raw,
     at: toOptionalString(value.at) ?? new Date().toISOString(),
     station: typeof value.station === 'string' ? value.station : '',
     source: toSource(value.source),
+    ...(direction ? { direction } : {}),
   };
 }
 
@@ -190,4 +193,20 @@ export function scanBody(
   const value = raw.trim();
   const base = value.startsWith('{') ? { qrPayload: value } : { ticketCode: value };
   return { ...base, direction };
+}
+
+
+export function readDirection(): 'ENTRY' | 'EXIT' {
+  const value = storage()?.getItem(DIRECTION_KEY);
+  return value === 'EXIT' ? 'EXIT' : 'ENTRY';
+}
+
+export function writeDirection(direction: 'ENTRY' | 'EXIT'): void {
+  const store = storage();
+  if (!store) return;
+  try {
+    store.setItem(DIRECTION_KEY, direction);
+  } catch {
+    /* ignore */
+  }
 }

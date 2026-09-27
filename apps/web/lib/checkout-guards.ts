@@ -27,13 +27,13 @@ export function validateCheckoutForm(form: CheckoutForm): CheckoutFormErrors {
   if (!name) errors.name = 'Escribe tu nombre completo';
   else if (name.length < 2) errors.name = 'El nombre es demasiado corto';
 
-  if (!email) errors.email = 'Escribe un email válido';
-  else if (!EMAIL_RE.test(email)) errors.email = 'El email no parece válido';
+  if (!email) errors.email = 'Escribe un correo válido';
+  else if (!EMAIL_RE.test(email)) errors.email = 'El correo no parece válido';
 
   if (form.holdExpired) {
-    errors.holds = 'Tu reserva expiró. Vuelve al evento y elige asientos de nuevo.';
+    errors.holds = 'Tu reserva expiró. Vuelve a elegir tus boletos.';
   } else if (form.holdIds.length === 0) {
-    errors.holds = 'No hay asientos reservados. Vuelve al mapa para continuar.';
+    errors.holds = 'No hay boletos reservados. Vuelve a elegir para continuar.';
   }
 
   return errors;
@@ -90,13 +90,13 @@ export function paymentErrorMessage(error: unknown): string {
 
   const lower = raw.toLowerCase();
   if (lower.includes('hold') || lower.includes('expired') || lower.includes('expir')) {
-    return 'Tu reserva de asientos expiró. Vuelve al evento y elige de nuevo.';
+    return 'Tu reserva expiró. Vuelve a elegir tus boletos.';
   }
   if (lower.includes('idempotency') || lower.includes('already')) {
-    return 'Esta compra ya se procesó. Revisa tu email o Mi cuenta.';
+    return 'Esta compra ya se procesó. Revisa tu correo o Mi cuenta.';
   }
   if (lower.includes('offer') && lower.includes('available')) {
-    return 'Algunos boletos ya no están disponibles. Elige otros asientos.';
+    return 'Algunos boletos ya no están disponibles. Elige de nuevo.';
   }
   if (
     lower.includes('network') ||

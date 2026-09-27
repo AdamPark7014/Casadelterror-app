@@ -40,6 +40,7 @@ export type QueuedScan = {
   at: string;
   station: string;
   source: ScanSource;
+  direction?: 'ENTRY' | 'EXIT';
 };
 
 export type ScanStats = {

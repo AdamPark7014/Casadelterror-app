@@ -86,7 +86,7 @@ export default function WillcallPage() {
   }
 
   return (
-    <PosShell title="Entregar boletos" eyebrow="Will-call · F4 buscar" backHref="/">
+    <PosShell title="Entregar boletos" eyebrow="Entrega · F4 buscar" backHref="/">
       {toast && (
         <p className={styles.toast} role="status">
           {toast}
