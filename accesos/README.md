@@ -7,6 +7,21 @@ y cola sin red. Base de datos propia.
 Vive en `PUMPKIN-app/accesos` desde el 14-11-2026. Antes estaba en `EVENTOS-app/pumpkin`
 (commits `ffa5522` y `9e2a9bd`), que se retiró junto con FICTI.
 
+> **Fuera de producción desde el 14-11-2026** (Adam: «pumpkin ya pasó, bájalo del server pero deja su db y
+> todo interna en local»). En el droplet ya no queda nada: ni contenedores, ni volumen, ni `/opt/pumpkin-accesos`.
+> Lo que queda en local, fuera de git:
+> - `C:\dev\apps\PUMPKIN-app\.respaldos-prod\final-2026-11-14\` con `pumpkin.dump` (`pg_restore`), `pumpkin.sql.gz`,
+>   `servidor-opt-pumpkin-accesos.tar.gz` (la carpeta del servidor con su `.env` y la capa del nginx) y los conteos
+>   (7 usuarios, 250 pases, 0 escaneos).
+> - La base restaurada en Docker local: el contenedor `pumpkin_accesos_db` (detenido) y el volumen
+>   `pumpkin-accesos_pumpkin_db`. Para levantarla:
+>   `docker compose -f accesos/docker-compose.pumpkin.yml --env-file accesos/.env up -d db`.
+> - `accesos/.env` es el `.env` del servidor (ignorado por git).
+>
+> Lo de abajo describe cómo corría. Para volver a publicarlo hay que recrear la red `pumpkin-net`, subir la carpeta,
+> montar `deploy/zz-panel.conf` en el nginx con `deploy/nginx-proxy.override.yml` y volver a crear el registro DNS
+> `panel`.
+
 - **URL:** https://panel.experiencebt.com.mx (todo el dominio es de PUMPKIN: la raíz, `/login` y
   `/accesos*` redirigen a `/pumpkin/`). Bloque del nginx: `deploy/zz-panel.conf`.
 - **Servidor:** droplet `147.182.128.128`, `/opt/pumpkin-accesos`, contenedores

@@ -2,20 +2,24 @@
 
 - **Último turno:** claude-code
 - **Fecha:** 2026-11-14
-- **Rama:** main
+- **Rama:** main (GitHub: `AdamPark7014/Casadelterror-app`, antes `PUMPKIN-app`; público)
 
 ## Hecho
-- PUMPKIN Accesos (control de acceso de los 250 pases QR, https://panel.experiencebt.com.mx/pumpkin/)
-  se mudó a `accesos/`. Antes vivía en `EVENTOS-app/pumpkin`, que Adam mandó retirar junto con
-  EVENTO-ELISA («que su código corra de pumpkin en su repo separado, mata totalmente evento elisa»).
-- `accesos/` usa npm propio y no entra al espacio pnpm (`apps/*`, `packages/*`). Pruebas: `cd accesos/api && npm test`.
-- En el droplet `147.182.128.128` corre desde `/opt/pumpkin-accesos`. El nginx compartido la alcanza
-  por la red `pumpkin-net` (ya no por `eventos-demo-net`). Bloque del nginx en
-  `accesos/deploy/zz-panel.conf` y capa del compose del nginx en `accesos/deploy/nginx-proxy.override.yml`.
-- Respaldo nocturno de su base: `C:\dev\apps\PUMPKIN-app\.respaldos-prod\` (fuera de git).
+- PUMPKIN Accesos (control de acceso de los 250 pases QR) se mudó a `accesos/`. Antes vivía en `EVENTOS-app/pumpkin`,
+  que se retiró junto con EVENTO-ELISA (`da70f13`).
+- **14-11-2026, fuera de producción:** Adam dijo «pumpkin ya pasó, bájalo del server pero deja su db y todo interna
+  en local».
+  - En el droplet `147.182.128.128` no queda nada de Pumpkin, y el nginx compartido volvió a su compose base.
+  - Datos en local, fuera de git: `.respaldos-prod/final-2026-11-14/` (dump, SQL, carpeta del servidor con `.env`,
+    conteos 7/250/0).
+  - La base está restaurada en Docker local: `pumpkin_accesos_db`, detenido, con el volumen `pumpkin-accesos_pumpkin_db`.
+    Se comprobó que los conteos coinciden con los del servidor.
+  - `accesos/.env` es el del servidor y está ignorado por git.
+- `accesos/` usa npm propio y no entra al espacio pnpm (`apps/*`, `packages/*`). Pruebas: `cd accesos/api && npm test`
+  (2/2 en verde el 14-11).
 
 ## Siguiente
-El monorepo raíz (Pumpkin Zone, Hetzner) sigue igual; `accesos/` es independiente de él.
+Nada pendiente de `accesos/`. El monorepo raíz (Pumpkin Zone) sigue igual y es independiente.
 
 ## No tocar
-`.env` del servidor y `C:\dev\secrets\pumpkin-accesos\`. Este repo es público: nada de claves en git.
+`accesos/.env`, `.respaldos-prod/` y `C:\dev\secrets\pumpkin-accesos\`. Este repo es público: nada de claves en git.
