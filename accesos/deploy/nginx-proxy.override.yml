@@ -1,0 +1,20 @@
+# Copia de /opt/nginx-override/docker-compose.demo-proxy.yml en el droplet (147.182.128.128).
+# Es una capa sobre /opt/sistema-registro-eventos/docker-compose.yml: le monta al nginx compartido
+# (nginx_registro_proxy) el bloque de panel.experiencebt.com.mx y lo une a la red de PUMPKIN.
+#
+# Recrear el nginx (corte de pocos segundos en todo el droplet):
+#   docker compose -p sistema-registro-eventos \
+#     -f /opt/sistema-registro-eventos/docker-compose.yml \
+#     -f /opt/nginx-override/docker-compose.demo-proxy.yml up -d --no-deps nginx
+services:
+  nginx:
+    volumes:
+      - /opt/pumpkin-accesos/deploy/zz-panel.conf:/etc/nginx/conf.d/zz-panel.conf:ro
+    networks:
+      - registro-network
+      - pumpkin-net
+
+networks:
+  pumpkin-net:
+    external: true
+    name: pumpkin-net
