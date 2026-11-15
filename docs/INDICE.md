@@ -74,7 +74,6 @@
 - [`docs/research/MERCADO-PAGO-BOLETERAS.md`](../docs/research/MERCADO-PAGO-BOLETERAS.md) — Deep research: Mercado Pago + boleteras (México)
 - [`docs/research/MERCADO-PAGO-POINT.md`](../docs/research/MERCADO-PAGO-POINT.md) — Deep research: Mercado Pago Point + credenciales (boletera MX)
 - [`docs/research/PASARELAS-BOLETERA-MX.md`](../docs/research/PASARELAS-BOLETERA-MX.md) — Deep research: Clip vs Mercado Pago vs Stripe vs PayPal — boletera México
-- [`docs/research/ticket-pumpkin-80x148.pdf`](../docs/research/ticket-pumpkin-80x148.pdf) — %PDF-1.6
 
 ## apps/api/src/modules/auth
 - [`apps/api/src/modules/auth/SECURITY-MIGRATION.md`](../apps/api/src/modules/auth/SECURITY-MIGRATION.md) — Security integration contract
