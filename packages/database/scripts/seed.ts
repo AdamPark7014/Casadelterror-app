@@ -232,6 +232,9 @@ async function createManyBatched<T extends object>(
 }
 
 async function main() {
+  if (SEED_PASSWORD.length < 8) {
+    throw new Error('Define SEED_PASSWORD (8 caracteres o mas) para las cuentas demo. No se escribio nada.');
+  }
   const rng = new SeedRng(RNG_SEED);
   const counts: Counts = {};
   const started = Date.now();
@@ -1631,9 +1634,9 @@ async function main() {
     console.log(`  ${k}: ${v}`);
   }
   console.log('\nLogins:');
-  console.log('  admin@demo.boletera.com / Admin123!');
-  console.log('  taquilla@demo.boletera.com / Admin123!');
-  console.log('  promotor@ocesa-demo.mx / Admin123!');
+  console.log('  admin@demo.boletera.com / SEED_PASSWORD');
+  console.log('  taquilla@demo.boletera.com / SEED_PASSWORD');
+  console.log('  promotor@ocesa-demo.mx / SEED_PASSWORD');
   console.log(`Mega venue seats: ${mega.seatCount}`);
   console.log(`Events: ${builtEvents.length} | Orders buffered: ${orderRows.length}`);
 }

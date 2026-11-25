@@ -4,6 +4,13 @@
 - **Fecha:** 2026-11-14
 - **Rama:** main (GitHub: `AdamPark7014/Casadelterror-app`, antes `PUMPKIN-app`; público)
 
+## 25-11-2026 (claude-code): credenciales del seed fuera del repo público
+
+- `seed-pumpkin.ts` (contraseña y PIN fijos) y el compilado `seed.js` dejan de versionarse; siguen en disco y hay copia en
+  `C:/dev/secrets/seeders/casadelterror`. El seed demo toma la contraseña de `SEED_PASSWORD` y se detiene si falta; la CI
+  genera una nueva en cada corrida.
+- Sin probar en ejecución: esta copia no tiene `node_modules`; se revisó la sintaxis. El evento ya está fuera de producción.
+
 ## Hecho
 - PUMPKIN Accesos (control de acceso de los 250 pases QR) se mudó a `accesos/`. Antes vivía en `EVENTOS-app/pumpkin`,
   que se retiró junto con EVENTO-ELISA (`da70f13`).

@@ -3,7 +3,7 @@ export const environment = {
   webUrl: process.env.WEB_URL ?? 'http://127.0.0.1:3010',
   adminUrl: process.env.ADMIN_URL ?? 'http://127.0.0.1:3001',
   taquillaUrl: process.env.TAQUILLA_URL ?? 'http://127.0.0.1:3002',
-  password: process.env.E2E_PASSWORD ?? 'Admin123!',
+  password: process.env.E2E_PASSWORD ?? process.env.SEED_PASSWORD ?? '',
   performance: {
     documentLoadMs: Number(process.env.E2E_DOCUMENT_LOAD_BUDGET_MS ?? 3_000),
     largestContentfulPaintMs: Number(process.env.E2E_LCP_BUDGET_MS ?? 4_000),

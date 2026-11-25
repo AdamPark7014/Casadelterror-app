@@ -21,3 +21,8 @@ infra/observability/.env
 packages/database/generated/client/*.tmp*
 packages/database/generated/client/*.bad
 .ai/index/
+
+# Sembradores con credenciales: solo locales (copia en C:/dev/secrets/seeders/casadelterror). El repo es publico.
+packages/database/scripts/seed-pumpkin.ts
+packages/database/scripts/seed.js
+packages/database/scripts/seed.js.map

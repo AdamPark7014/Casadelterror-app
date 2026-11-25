@@ -19,7 +19,7 @@ pnpm db:seed
 pnpm exec playwright install chromium
 ```
 
-Credenciales seed: `admin@demo.boletera.com` / `Admin123!` (también
+Credenciales seed: `admin@demo.boletera.com` / la de `SEED_PASSWORD` (también
 `admin@ocesa-demo.mx`, `admin@cie-demo.mx`, `taquilla@demo.boletera.com`,
 `scanner@demo.boletera.com`).
 

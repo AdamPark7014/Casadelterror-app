@@ -138,8 +138,7 @@ Y abre **http://localhost:4000/api/docs** para el Swagger.
 
 ### Credenciales del seed
 
-Todas usan la contraseña **`Admin123!`** (`SEED_PASSWORD` en
-`packages/database/scripts/seed-lib/constants.ts`).
+Todas usan la contraseña de la variable `SEED_PASSWORD` que pongas al sembrar.
 
 | Correo | Rol | Organización |
 |--------|-----|--------------|

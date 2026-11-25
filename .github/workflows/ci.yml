@@ -154,6 +154,7 @@ jobs:
         run: |
           echo "JWT_SECRET=$(openssl rand -base64 48 | tr -d '\n')" >> "$GITHUB_ENV"
           echo "INTERNAL_API_SECRET=$(openssl rand -base64 32 | tr -d '\n')" >> "$GITHUB_ENV"
+          echo "SEED_PASSWORD=Aa1$(openssl rand -hex 12)" >> "$GITHUB_ENV"
 
       - name: Generate Prisma client
         run: pnpm db:generate
@@ -170,6 +171,7 @@ jobs:
           REDIS_URL=${REDIS_URL}
           JWT_SECRET=${JWT_SECRET}
           INTERNAL_API_SECRET=${INTERNAL_API_SECRET}
+          SEED_PASSWORD=${SEED_PASSWORD}
           NODE_ENV=development
           EOF
 

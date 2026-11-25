@@ -1,5 +1,6 @@
 export const SEED_VERSION = 'demo-v2';
-export const SEED_PASSWORD = 'Admin123!';
+/** Contrasena de las cuentas demo: solo del entorno. El sembrador se detiene si falta. */
+export const SEED_PASSWORD = process.env.SEED_PASSWORD?.trim() ?? '';
 
 /** Fixed epoch for reproducible relative dates (2026-07-30 local MX intent). */
 export const SEED_NOW = new Date('2026-07-30T18:00:00-06:00');
